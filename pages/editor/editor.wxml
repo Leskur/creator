@@ -9,7 +9,7 @@
 
 
   <!-- 背景面板  -->
-  <view wx:if="{{panelName=='color'}}" class="panel">
+  <view class="panel {{panelName=='color'?'show':''}}">
     <view class="panel-title">
       <view class="content">
         背景
