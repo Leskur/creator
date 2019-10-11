@@ -1,6 +1,6 @@
 <!--pages/editor/editor.wxml-->
 <view class="container flex flex-direction">
-  <view class="flex-sub" style="padding:0 10%;">
+  <view data-a="{{test}}" class="flex-sub" style="padding:0 10%;">
     <view class="frame">
       <movable-area style="background-color:{{bgColor}}" class="movable-area"></movable-area>
     </view>

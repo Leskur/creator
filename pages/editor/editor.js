@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    test:1,
     bars: [{
       icon: 'skinfill',
       name: '背景',
@@ -27,11 +28,12 @@ Page({
     console.log(e)
     const { panelName } = e.currentTarget.dataset
     console.log(panelName)
-    this.setData({ panelName })
+    this.setData({ panelName, test: this.data.test + 1 })
   },
   hidePanel() {
     this.setData({
-      panelName: ''
+      panelName: '',
+      test:this.data.test + 1
     })
   }
 })

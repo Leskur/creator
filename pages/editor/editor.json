@@ -1,5 +1,5 @@
 {
   "usingComponents": {},
-  "disableScroll": true,
+  "disableScroll": false,
   "backgroundColor": "#000000"
 }
