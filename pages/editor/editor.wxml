@@ -1,15 +1,20 @@
 <!--pages/editor/editor.wxml-->
-<view class="container flex flex-direction">
-  <view data-a="{{test}}" class="flex-sub" style="padding:0 10%;">
-    <view class="frame">
-      <movable-area style="background-color:{{bgColor}}" class="movable-area"></movable-area>
-    </view>
-
-  </view>
 
 
+<movable-area style="background-color:{{bgColor}}" class="movable-area">
+  <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" scale>
+    <image src="{{item.url}}"></image>
+  </movable-view>
+  <movable-view class="frame" disabled style="border-left-width:{{frameHeight*0.15}}px;border-right-width:{{frameHeight*0.15}}px;"></movable-view>
+</movable-area>
+
+
+
+
+<!-- 底部面板 -->
+<view id="panel">
   <!-- 背景面板  -->
-  <view wx:if="{{panelName=='color'}}" class="panel">
+  <view id="test" wx:if="{{panelName=='color'}}" class="panel">
     <view class="panel-title">
       <view class="content">
         背景
@@ -28,10 +33,9 @@
   </view>
 
   <!-- 操作条 -->
-  <view  class="cu-bar tabbar text-white">
+  <view hidden="{{panelName!==''}}" class="cu-bar tabbar text-white">
     <view bindtap="showPanel" data-panel-name="{{item.panel}}" wx:for="{{bars}}" wx:key class="action text-white">
       <view class="cuIcon-{{item.icon}}"></view>{{item.name}}
     </view>
   </view>
-
 </view>
