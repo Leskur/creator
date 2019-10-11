@@ -2,14 +2,14 @@
 <view class="container flex flex-direction">
   <view class="flex-sub" style="padding:0 10%;">
     <view class="frame">
-      <!-- <movable-area style="background-color:{{bgColor}}" class="movable-area"></movable-area> -->
+      <movable-area style="background-color:{{bgColor}}" class="movable-area"></movable-area>
     </view>
 
   </view>
 
 
   <!-- 背景面板  -->
-  <view class="panel {{panelName=='color'?'show':''}}">
+  <view wx:if="{{panelName=='color'}}" class="panel">
     <view class="panel-title">
       <view class="content">
         背景
