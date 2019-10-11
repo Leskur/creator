@@ -1,0 +1,37 @@
+<!--pages/editor/editor.wxml-->
+<view class="container flex flex-direction">
+  <view class="flex-sub" style="padding:0 10%;">
+    <view class="frame">
+      <!-- <movable-area style="background-color:{{bgColor}}" class="movable-area"></movable-area> -->
+    </view>
+
+  </view>
+
+
+  <!-- 背景面板  -->
+  <view wx:if="{{panelName=='color'}}" class="panel">
+    <view class="panel-title">
+      <view class="content">
+        背景
+      </view>
+      <view bindtap="hidePanel" class="action">
+        <text class="cuIcon-check"></text>
+      </view>
+    </view>
+    <view class="panel-content">
+      <scroll-view scroll-x>
+        <view class="color-picker">
+          <view bindtap="changeColor" data-value="{{item}}" wx:for="{{colors}}" wx:key class="color" style="background-color:{{item}}"></view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 操作条 -->
+  <view  class="cu-bar tabbar text-white">
+    <view bindtap="showPanel" data-panel-name="{{item.panel}}" wx:for="{{bars}}" wx:key class="action text-white">
+      <view class="cuIcon-{{item.icon}}"></view>{{item.name}}
+    </view>
+  </view>
+
+</view>
