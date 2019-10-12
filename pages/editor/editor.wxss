@@ -5,9 +5,10 @@ page {
 }
 
 .movable-area {
-  background-color: #647f9c;
-  height: 100%;
-  width: 200%;
+  height: 300%;
+  width: 300%;
+  margin-left: -100%;
+  margin-top: -100%;
 }
 
 movable-view.frame {
@@ -51,10 +52,10 @@ movable-view image {
 }
 
 .panel {
-  position: fixed;
   bottom: 0;
   z-index: 100;
   width: 100%;
+  background-color: var(--black);
 }
 
 .panel-title {

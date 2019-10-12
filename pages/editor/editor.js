@@ -18,7 +18,7 @@ Page({
       icon: 'emojiflashfill',
       name: '贴纸'
     }],
-    bgColor: '',
+    bgColor: '#647f9c',
     panelName: '',
     colors,
     frameHeight: 0,
@@ -40,9 +40,7 @@ Page({
   },
   changeColor(e) {
     const color = e.currentTarget.dataset.value
-    this.setData({
-      bgColor: color
-    })
+    this.setData({ bgColor: color })
   },
   showPanel(e) {
     console.log(e)

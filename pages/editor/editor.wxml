@@ -2,10 +2,10 @@
 
 
 <movable-area style="background-color:{{bgColor}}" class="movable-area">
-  <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" scale>
+  <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" animation="{{false}}">
     <image src="{{item.url}}"></image>
   </movable-view>
-  <movable-view class="frame" disabled style="border-left-width:{{frameHeight*0.15}}px;border-right-width:{{frameHeight*0.15}}px;"></movable-view>
+  <!-- <movable-view class="frame" disabled style="border-left-width:{{frameHeight*0.15}}px;border-right-width:{{frameHeight*0.15}}px;"></movable-view> -->
 </movable-area>
 
 
