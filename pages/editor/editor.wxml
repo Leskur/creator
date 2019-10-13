@@ -1,29 +1,32 @@
 <!--pages/editor/editor.wxml-->
 
 
-<movable-area style="background-color:{{bgColor}}" class="movable-area">
-  <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" animation="{{false}}">
+<movable-area id="area" style="background-color:{{bgColor}}" class="movable-area">
+  <!-- <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" animation="{{false}}">
     <image src="{{item.url}}"></image>
+  </movable-view> -->
+<movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key  direction="all" class="material" style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.left}}" y="{{item.top}}">
+    <image mode="aspectFit" src="{{item.image}}"></image>
   </movable-view>
-  <!-- <movable-view class="frame" disabled style="border-left-width:{{frameHeight*0.15}}px;border-right-width:{{frameHeight*0.15}}px;"></movable-view> -->
+  <!-- 蒙层 -->
+  <!-- <view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;" class="frame"></view> -->
 </movable-area>
 
 
 
 
 <!-- 底部面板 -->
-<view id="panel">
+<view hidden="{{materials.length>0}}" id="panel" class="text-white">
   <!-- 背景面板  -->
-  <view id="test" wx:if="{{panelName=='color'}}" class="panel">
-    <view class="panel-title">
-      <view class="content">
-        背景
-      </view>
+  <view hidden="{{panelName!=='color'}}" class="bg-black">
+    <view class="cu-bar">
+      <view class="action"></view>
+      <view class="content">背景</view>
       <view bindtap="hidePanel" class="action">
         <text class="cuIcon-check"></text>
       </view>
     </view>
-    <view class="panel-content">
+    <view class="padding-lr padding-bottom ">
       <scroll-view scroll-x>
         <view class="color-picker">
           <view bindtap="changeColor" data-value="{{item}}" wx:for="{{colors}}" wx:key class="color" style="background-color:{{item}}"></view>
@@ -32,8 +35,47 @@
     </view>
   </view>
 
+  <!-- 贴纸面板  -->
+  <view hidden="{{panelName!=='image'}}" class="bg-black">
+    <view class="cu-bar">
+      <view bindtap="hidePanel" class="action">
+        <text class="cuIcon-back"></text>
+      </view>
+      <view class="content">贴纸</view>
+      <view bindtap="hidePanel" class="action">
+        <text class="cuIcon-check"></text>
+      </view>
+    </view>
+    <!-- 贴纸分组 -->
+    <scroll-view scroll-x class="nav text-center" scroll-with-animation scroll-left="{{scrollLeft}}">
+      <view class="flex">
+        <view class="cu-item flex-sub {{index==currentImagePanelTab?'cur':''}}" wx:for="{{images}}" wx:key bindtap="selectPanel" data-index="{{index}}">
+          <image mode="aspectFit" class="image-item vertical-align" src="{{item.image}}"></image>
+        </view>
+      </view>
+    </scroll-view>
+
+
+
+    <view class="padding">
+      <!-- 贴纸 -->
+      <scroll-view hidden="{{index!==currentImagePanelTab}}" wx:for="{{images}}" wx:key scroll-y class="images-scroll">
+        <view class="cu-list grid col-6 no-border">
+          <view wx:for="{{item.list}}" wx:key class="cu-item align-center">
+            <view bindtap="addMeterial" data-group="{{currentImagePanelTab}}" data-index="{{index}}" class="image-item">
+              <image mode="aspectFit" class="image-item vertical-align" src="{{item}}"></image>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+
+
+
   <!-- 操作条 -->
-  <view hidden="{{panelName!==''}}" class="cu-bar tabbar text-white">
+  <view hidden="{{panelName!==''}}" class="cu-bar tabbar">
     <view bindtap="showPanel" data-panel-name="{{item.panel}}" wx:for="{{bars}}" wx:key class="action text-white">
       <view class="cuIcon-{{item.icon}}"></view>{{item.name}}
     </view>

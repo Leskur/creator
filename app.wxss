@@ -7,3 +7,16 @@ page {
   display: flex;
   flex-direction: column;
 } 
+.overflow-hidden{
+  overflow: hidden;
+}
+.vertical-align{
+  vertical-align:middle;
+}
+
+.radius {
+  border-radius: 10rpx;
+}
+.grid.col-6>view {
+	width: 16.6%;
+}
