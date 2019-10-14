@@ -3,7 +3,9 @@
 page {
   background: black;
 }
-
+.test{
+  /* transform: scale(1) !important; */
+}
 /* reset */
 
 .cu-list.grid {
@@ -19,12 +21,14 @@ page {
 }
 
 /* movable */
-
+#area{
+  /* position: absolute; */
+}
 .movable-area {
-  height: 300%;
+  /* height: 300%;
   width: 300%;
   margin-top: -100%;
-  margin-left: -100%;
+  margin-left: -100%; */
 }
 
 movable-view.material {

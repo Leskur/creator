@@ -22,6 +22,14 @@ Page({
     panelName: '',
     colors,
     images,
+    area: {
+      bottom: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+      width: 0
+    },
     frame: {
       height: 0,
       wdth: 0,
@@ -31,29 +39,63 @@ Page({
     currentImagePanelTab: 0,
     materials: []
   },
-  onLoad() {
-    this.systemInfo = wx.getSystemInfoSync()
-    console.log(this.systemInfo)
-    this.resize()
+  onReady() {
+    const systemInfo = wx.getSystemInfoSync()
+    this.systemInfo = systemInfo
+    this.init()
+    // console.log(this.systemInfo)
+    // this.resize()
+  },
+  init() {
+    const systemInfo = this.systemInfo || wx.getSystemInfoSync()
+    const area = {
+      width: systemInfo.windowWidth * 3,
+      height: systemInfo.windowHeight * 3,
+      top: - systemInfo.windowHeight,
+      left: - systemInfo.windowWidth,
+
+    }
+    this.setData({ area }, () => {
+      const query = wx.createSelectorQuery()
+      query.select('#panel').boundingClientRect()
+      query.exec(res => {
+        console.log(res[1])
+        const frameHeight = systemInfo.windowHeight - res[0].height
+        const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
+        const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+        this.setData({
+          frame: {
+            height: systemInfo.windowHeight - res[0].height,
+            width: frameWidth,
+            left: frameLeft,
+            right: frameLeft + frameWidth,
+            top: 0
+          }
+        })
+        console.log(this.data.frame)
+      })
+    })
+    
   },
   // 用于重置画布大小
   resize() {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const query = wx.createSelectorQuery()
     query.select('#panel').boundingClientRect()
-    query.select('#area').boundingClientRect()
     query.exec(res => {
-      console.log(res[1])
-      const frameHeight = systemInfo.windowHeight - res[0].height
+      const panel = res[0]
+      const frameHeight = systemInfo.windowHeight - panel.height
       const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
       const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+      const frameTop = 0
       this.setData({
         frame: {
-          height: systemInfo.windowHeight - res[0].height,
+          height: systemInfo.windowHeight - panel.height,
           width: frameWidth,
           left: frameLeft,
           right: frameLeft + frameWidth,
-          top: 0
+          top: frameTop,
+          bottom: frameTop + frameHeight
         }
       })
       console.log(this.data.frame)
@@ -102,12 +144,20 @@ Page({
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     console.log(frame)
     const image = images[group].list[index]
+
+    const x = systemInfo.windowWidth + frame.left + frame.width / 2 - 32
+    const y = systemInfo.windowHeight + frame.top + frame.height / 2 - 45
+
     materials.push({
       image,
       width: 64,
       height: 90,
-      left: systemInfo.windowWidth + frame.left + frame.width * 0.5,
-      top: systemInfo.windowHeight
+      x,
+      y,
+      // top: y - systemInfo.windowHeight,
+      // right: x + 64 - systemInfo.windowWidth,
+      // bottom: y + 90 - systemInfo.windowHeight,
+      // left: x - systemInfo.windowWidth
     })
     this.setData({
       materials
@@ -115,10 +165,11 @@ Page({
     const query = wx.createSelectorQuery()
     query.select('#material-0').boundingClientRect()
     query.exec(res => {
-      console.log(res)
+      console.log(res[0])
     })
   },
   changeMaterial(e) {
+    const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const {
       materials
     } = this.data
@@ -127,14 +178,17 @@ Page({
       y,
       source
     } = e.detail
-    const index = e.currentTarget.dataset.index
-      materials[index].left = x
-      materials[index].top = y
+    console.log(e.detail)
+    if(source == 'touch') {
+      const index = e.currentTarget.dataset.index
+      materials[index].x = x
+      materials[index].y = y
+      materials[index].y - systemInfo.windowHeight,
+      materials[index].right= x + 64 - systemInfo.windowWidth,
+      materials[index].bottom = y + 90 - systemInfo.windowHeight,
+      materials[index].left = x - systemInfo.windowWidth
       this.setData({ materials })
-      // const { index } = e.currentTarget.dataset
-      // materials[index].x = x, materials[index].y = y
-      // this.setData({ materials })
-
+    }
   }
 
 })

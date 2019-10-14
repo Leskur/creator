@@ -1,22 +1,19 @@
 <!--pages/editor/editor.wxml-->
 
 
-<movable-area id="area" style="background-color:{{bgColor}}" class="movable-area">
-  <!-- <movable-view bindchange="changeMaterial" data-index="{{index}}" style="width:{{item.w/3}}px;height:{{item.h/3}}px;" x="{{frameHeight/2}}" wx:for="{{materials}}" wx:key direction="all" animation="{{false}}">
-    <image src="{{item.url}}"></image>
-  </movable-view> -->
-<movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key  direction="all" class="material" style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.left}}" y="{{item.top}}">
+<movable-area id="area" style="width:{{area.width}}px;height:{{area.height}}px;top:{{area.top}}px;left:{{area.left}}px;background-color:{{bgColor}};" class="movable-area">
+  <movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key direction="all" class="material test" animation="{{false}}" scale style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}" y="{{item.y}}">
     <image mode="aspectFit" src="{{item.image}}"></image>
   </movable-view>
-  <!-- 蒙层 -->
-  <!-- <view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;" class="frame"></view> -->
+
 </movable-area>
 
-
+<!-- 蒙层 -->
+<view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;" class="frame test"></view>
 
 
 <!-- 底部面板 -->
-<view hidden="{{materials.length>0}}" id="panel" class="text-white">
+<view id="panel" class="text-white">
   <!-- 背景面板  -->
   <view hidden="{{panelName!=='color'}}" class="bg-black">
     <view class="cu-bar">
