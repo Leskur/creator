@@ -43,8 +43,6 @@ Page({
     const systemInfo = wx.getSystemInfoSync()
     this.systemInfo = systemInfo
     this.init()
-    // console.log(this.systemInfo)
-    // this.resize()
   },
   init() {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
@@ -59,28 +57,30 @@ Page({
       const query = wx.createSelectorQuery()
       query.select('#panel').boundingClientRect()
       query.exec(res => {
-        console.log(res[1])
-        const frameHeight = systemInfo.windowHeight - res[0].height
+        const panel = res[0]
+        const frameHeight = systemInfo.windowHeight - panel.height
         const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
         const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+        const frameTop = 0
         this.setData({
           frame: {
-            height: systemInfo.windowHeight - res[0].height,
+            height: frameHeight,
             width: frameWidth,
             left: frameLeft,
             right: frameLeft + frameWidth,
-            top: 0
+            top: frameTop,
+            bottom: frameTop + frameHeight
           }
         })
-        console.log(this.data.frame)
       })
     })
-    
+
   },
   // 用于重置画布大小
   resize() {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const query = wx.createSelectorQuery()
+    const { frame, materials } = this.data
     query.select('#panel').boundingClientRect()
     query.exec(res => {
       const panel = res[0]
@@ -88,17 +88,36 @@ Page({
       const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
       const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
       const frameTop = 0
-      this.setData({
-        frame: {
-          height: systemInfo.windowHeight - panel.height,
-          width: frameWidth,
-          left: frameLeft,
-          right: frameLeft + frameWidth,
-          top: frameTop,
-          bottom: frameTop + frameHeight
-        }
+      const newFrame = {
+        height: systemInfo.windowHeight - panel.height,
+        width: frameWidth,
+        left: frameLeft,
+        right: frameLeft + frameWidth,
+        top: frameTop,
+        bottom: frameTop + frameHeight
+      }
+
+      const scaleX = newFrame.width / frame.width
+      const scaleY = newFrame.height / frame.height
+
+      materials.forEach(item => {
+          // const itemCenterX = item.left + item.width / 2
+          // const itemCenterX = item.left + item.width / 2
+          item.width *= scaleX
+          item.height *= scaleY
+
+        //   console.log(item.top)
+          item.left = newFrame.left + (item.left - frame.left) * scaleX
+          item.top = newFrame.top + (item.top - frame.top) * scaleY
+        //   console.log(item.top)
+          item.x =  systemInfo.windowWidth + item.left
+        item.y = systemInfo.windowHeight + item.top
       })
-      console.log(this.data.frame)
+
+      this.setData({
+        frame: newFrame,
+        materials
+      })
     })
   },
   changeColor(e) {
@@ -126,7 +145,6 @@ Page({
     })
   },
   selectPanel(e) {
-    console.log(e)
     this.setData({
       currentImagePanelTab: e.currentTarget.dataset.index
     })
@@ -142,30 +160,26 @@ Page({
       frame
     } = this.data
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
-    console.log(frame)
     const image = images[group].list[index]
 
     const x = systemInfo.windowWidth + frame.left + frame.width / 2 - 32
     const y = systemInfo.windowHeight + frame.top + frame.height / 2 - 45
-
-    materials.push({
+    const material = {
       image,
       width: 64,
       height: 90,
       x,
       y,
-      // top: y - systemInfo.windowHeight,
-      // right: x + 64 - systemInfo.windowWidth,
-      // bottom: y + 90 - systemInfo.windowHeight,
-      // left: x - systemInfo.windowWidth
-    })
+    }
+    // material.top = y - systemInfo.windowHeight + frame.top + (frame.height - frame.top) / 2 - 90 / 2
+    // material.left = x - systemInfo.windowWidth + frame.left + (frame.width - 64) / 2
+    // material.right = material.left + material.width
+    // material.bottom = material.top + material.height
+
+    materials.push(material)
+    console.log(material)
     this.setData({
       materials
-    })
-    const query = wx.createSelectorQuery()
-    query.select('#material-0').boundingClientRect()
-    query.exec(res => {
-      console.log(res[0])
     })
   },
   changeMaterial(e) {
@@ -178,15 +192,14 @@ Page({
       y,
       source
     } = e.detail
-    console.log(e.detail)
-    if(source == 'touch') {
+    if (source == 'touch') {
       const index = e.currentTarget.dataset.index
       materials[index].x = x
-      materials[index].y = y
-      materials[index].y - systemInfo.windowHeight,
-      materials[index].right= x + 64 - systemInfo.windowWidth,
-      materials[index].bottom = y + 90 - systemInfo.windowHeight,
-      materials[index].left = x - systemInfo.windowWidth
+      materials[index].y = y,
+        materials[index].top = y - systemInfo.windowHeight,
+        materials[index].right = x + 64 - systemInfo.windowWidth,
+        materials[index].bottom = y + 90 - systemInfo.windowHeight,
+        materials[index].left = x - systemInfo.windowWidth
       this.setData({ materials })
     }
   }

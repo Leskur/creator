@@ -42,7 +42,7 @@ movable-view.material {
   background-color: transparent;
   pointer-events: none;
   box-sizing: border-box;
-  border: 30rpx solid white;
+  /* border: 30rpx solid white; */
   left:0;
   top:0;
 }
