@@ -42,26 +42,19 @@ movable-view.material {
   background-color: transparent;
   pointer-events: none;
   box-sizing: border-box;
-  /* border: 30rpx solid white; */
+  border: solid white;
+  
   left:0;
   top:0;
+  right: 0;
+  height: 0;
 }
 
-.frame::before, .frame::after {
-  content: "";
+.frame-before, .frame-after {
+  /* opacity: 0.1; */
   background-color: black;
   position: absolute;
   width: 750rpx;
-  height: calc(100% + 30rpx * 2);
-  top: -30rpx;
-}
-
-.frame::before {
-  right: calc((100% + 30rpx));
-}
-
-.frame::after {
-  left: calc((100% + 30rpx));
 }
 
 movable-view image {

@@ -2,14 +2,20 @@
 
 
 <movable-area id="area" style="width:{{area.width}}px;height:{{area.height}}px;top:{{area.top}}px;left:{{area.left}}px;background-color:{{bgColor}};" class="movable-area">
-  <movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key direction="all" class="material test" animation="{{false}}" scale style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}" y="{{item.y}}">
+  <movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key direction="all" class="material test" animation="{{false}}" scale style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}"
+    y="{{item.y}}">
     <image mode="aspectFit" src="{{item.image}}"></image>
   </movable-view>
 
 </movable-area>
 
 <!-- 蒙层 -->
-<view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;" class="frame test"></view>
+
+<view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;border-width:{{frame.border}}px;" class="frame">
+  <view style="top:{{-frame.border}}px;bottom:{{-frame.border}}px;right:calc(100% + {{frame.border}}px);" class="frame-before"></view>
+  <view style="top:{{-frame.border}}px;bottom:{{-frame.border}}px;left:calc(100% + {{frame.border}}px);" class="frame-after"></view>
+</view>
+
 
 
 <!-- 底部面板 -->

@@ -34,7 +34,8 @@ Page({
       height: 0,
       wdth: 0,
       left: 0,
-      top: 0
+      top: 0,
+      border: 20
     },
     currentImagePanelTab: 0,
     materials: []
@@ -49,18 +50,21 @@ Page({
     const area = {
       width: systemInfo.windowWidth * 3,
       height: systemInfo.windowHeight * 3,
-      top: - systemInfo.windowHeight,
-      left: - systemInfo.windowWidth,
-
+      top: -systemInfo.windowHeight,
+      left: -systemInfo.windowWidth,
     }
-    this.setData({ area }, () => {
+    this.setData({
+      area
+    }, () => {
       const query = wx.createSelectorQuery()
       query.select('#panel').boundingClientRect()
       query.exec(res => {
         const panel = res[0]
         const frameHeight = systemInfo.windowHeight - panel.height
         const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
+        console.log(frameWidth)
         const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+        console.log(frameLeft)
         const frameTop = 0
         this.setData({
           frame: {
@@ -69,7 +73,8 @@ Page({
             left: frameLeft,
             right: frameLeft + frameWidth,
             top: frameTop,
-            bottom: frameTop + frameHeight
+            bottom: frameTop + frameHeight,
+            border: 30
           }
         })
       })
@@ -80,13 +85,18 @@ Page({
   resize() {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const query = wx.createSelectorQuery()
-    const { frame, materials } = this.data
+    const {
+      frame,
+      materials
+    } = this.data
     query.select('#panel').boundingClientRect()
     query.exec(res => {
       const panel = res[0]
       const frameHeight = systemInfo.windowHeight - panel.height
       const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
+      console.log(frameWidth)
       const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+      console.log(frameLeft)
       const frameTop = 0
       const newFrame = {
         height: systemInfo.windowHeight - panel.height,
@@ -94,23 +104,24 @@ Page({
         left: frameLeft,
         right: frameLeft + frameWidth,
         top: frameTop,
-        bottom: frameTop + frameHeight
+        bottom: frameTop + frameHeight,
+        border: 30
       }
 
-      const scaleX = newFrame.width / frame.width
-      const scaleY = newFrame.height / frame.height
+      const scaleX = (newFrame.width - 60) / (frame.width-60)
+      const scaleY = (newFrame.height - 60) / (frame.height -60)
 
       materials.forEach(item => {
-          // const itemCenterX = item.left + item.width / 2
-          // const itemCenterX = item.left + item.width / 2
-          item.width *= scaleX
-          item.height *= scaleY
+        // const itemCenterX = item.left + item.width / 2
+        // const itemCenterX = item.left + item.width / 2
+        item.width *= scaleX
+        item.height *= scaleY
 
+        console.log(item.left - frame.left)
+        item.left = newFrame.left + (item.left - frame.left - 30) * scaleX + 30
+        item.top = newFrame.top + (item.top - frame.top - 30) * scaleY + 30
         //   console.log(item.top)
-          item.left = newFrame.left + (item.left - frame.left) * scaleX
-          item.top = newFrame.top + (item.top - frame.top) * scaleY
-        //   console.log(item.top)
-          item.x =  systemInfo.windowWidth + item.left
+        item.x = systemInfo.windowWidth + item.left
         item.y = systemInfo.windowHeight + item.top
       })
 
@@ -171,8 +182,8 @@ Page({
       x,
       y,
     }
-    material.top = frame.top + frame.height / 2 - 45 - 90
-    material.left = frame.left + frame.width / 2 - 32
+    material.top = y - systemInfo.windowHeight
+    material.left = x - systemInfo.windowWidth
     material.right = material.left + material.width
     material.bottom = material.top + material.height
 
@@ -185,7 +196,8 @@ Page({
   changeMaterial(e) {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const {
-      materials
+      materials,
+      frame
     } = this.data
     const {
       x,
@@ -195,12 +207,16 @@ Page({
     if (source == 'touch') {
       const index = e.currentTarget.dataset.index
       materials[index].x = x
-      materials[index].y = y,
-        materials[index].top = y - systemInfo.windowHeight,
-        materials[index].right = x + 64 - systemInfo.windowWidth,
-        materials[index].bottom = y + 90 - systemInfo.windowHeight,
-        materials[index].left = x - systemInfo.windowWidth
-      this.setData({ materials })
+      materials[index].y = y
+      materials[index].top = y - systemInfo.windowHeight
+      materials[index].right = x + 64 - systemInfo.windowWidth
+      materials[index].bottom = y + 90 - systemInfo.windowHeight
+      materials[index].left = x - systemInfo.windowWidth
+      console.log(materials[index].left)
+      console.log(frame.left)
+      this.setData({
+        materials
+      })
     }
   }
 
