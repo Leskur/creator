@@ -171,10 +171,10 @@ Page({
       x,
       y,
     }
-    // material.top = y - systemInfo.windowHeight + frame.top + (frame.height - frame.top) / 2 - 90 / 2
-    // material.left = x - systemInfo.windowWidth + frame.left + (frame.width - 64) / 2
-    // material.right = material.left + material.width
-    // material.bottom = material.top + material.height
+    material.top = frame.top + frame.height / 2 - 45 - 90
+    material.left = frame.left + frame.width / 2 - 32
+    material.right = material.left + material.width
+    material.bottom = material.top + material.height
 
     materials.push(material)
     console.log(material)
