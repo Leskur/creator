@@ -38,7 +38,18 @@ Page({
       border: 20
     },
     currentImagePanelTab: 0,
-    materials: []
+    meterials: [{
+      "image": "http://qiniu.scdztlzx.com/creator/1-6.png",
+      "width": 87.9760092272203,
+      "height": 122.37209302325583,
+      "x": 1207.0119953863898,
+      "y": 1455.3139534883721,
+      "top": 407.31395348837214,
+      "left": 373.0119953863898,
+      "right": 449,
+      "bottom": 397.5
+    }],
+    currentMeterial: -1
   },
   onReady() {
     const systemInfo = wx.getSystemInfoSync()
@@ -87,16 +98,14 @@ Page({
     const query = wx.createSelectorQuery()
     const {
       frame,
-      materials
+      meterials
     } = this.data
     query.select('#panel').boundingClientRect()
     query.exec(res => {
       const panel = res[0]
       const frameHeight = systemInfo.windowHeight - panel.height
       const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
-      console.log(frameWidth)
       const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
-      console.log(frameLeft)
       const frameTop = 0
       const newFrame = {
         height: systemInfo.windowHeight - panel.height,
@@ -108,26 +117,26 @@ Page({
         border: 30
       }
 
-      const scaleX = (newFrame.width - 60) / (frame.width-60)
-      const scaleY = (newFrame.height - 60) / (frame.height -60)
+      const scaleX = (newFrame.width - 60) / (frame.width - 60)
+      const scaleY = (newFrame.height - 60) / (frame.height - 60)
 
-      materials.forEach(item => {
+      meterials.forEach(item => {
         // const itemCenterX = item.left + item.width / 2
         // const itemCenterX = item.left + item.width / 2
         item.width *= scaleX
         item.height *= scaleY
-
-        console.log(item.left - frame.left)
         item.left = newFrame.left + (item.left - frame.left - 30) * scaleX + 30
         item.top = newFrame.top + (item.top - frame.top - 30) * scaleY + 30
         //   console.log(item.top)
         item.x = systemInfo.windowWidth + item.left
         item.y = systemInfo.windowHeight + item.top
       })
+      console.log(JSON.stringify(meterials))
 
       this.setData({
         frame: newFrame,
-        materials
+        meterials,
+        currentMeterial: -1
       })
     })
   },
@@ -160,13 +169,18 @@ Page({
       currentImagePanelTab: e.currentTarget.dataset.index
     })
   },
+  cancelSelect() {
+    this.setData({
+      currentMeterial: -1
+    })
+  },
   addMeterial(e) {
     const {
       group,
       index
     } = e.currentTarget.dataset
     const {
-      materials,
+      meterials,
       images,
       frame
     } = this.data
@@ -175,28 +189,44 @@ Page({
 
     const x = systemInfo.windowWidth + frame.left + frame.width / 2 - 32
     const y = systemInfo.windowHeight + frame.top + frame.height / 2 - 45
-    const material = {
+    const meterial = {
       image,
       width: 64,
       height: 90,
       x,
       y,
     }
-    material.top = y - systemInfo.windowHeight
-    material.left = x - systemInfo.windowWidth
-    material.right = material.left + material.width
-    material.bottom = material.top + material.height
+    meterial.top = y - systemInfo.windowHeight
+    meterial.left = x - systemInfo.windowWidth
+    meterial.right = meterial.left + meterial.width
+    meterial.bottom = meterial.top + meterial.height
 
-    materials.push(material)
-    console.log(material)
+    meterials.push(meterial)
+    console.log(JSON.stringify(meterial))
     this.setData({
-      materials
+      meterials,
+      currentMeterial: meterials.length - 1
     })
   },
-  changeMaterial(e) {
+  delMeterial(e) {
+    const {
+      meterials
+    } = this.data
+    meterials.splice(e.currentTarget.dataset.index, 1)
+    this.setData({
+      currentMeterial: -1,
+      meterials
+    })
+  },
+  selectMeterial(e) {
+    this.setData({
+      currentMeterial: e.currentTarget.dataset.index,
+    })
+  },
+  changemeterial(e) {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const {
-      materials,
+      meterials,
       frame
     } = this.data
     const {
@@ -206,16 +236,16 @@ Page({
     } = e.detail
     if (source == 'touch') {
       const index = e.currentTarget.dataset.index
-      materials[index].x = x
-      materials[index].y = y
-      materials[index].top = y - systemInfo.windowHeight
-      materials[index].right = x + 64 - systemInfo.windowWidth
-      materials[index].bottom = y + 90 - systemInfo.windowHeight
-      materials[index].left = x - systemInfo.windowWidth
-      console.log(materials[index].left)
+      meterials[index].x = x
+      meterials[index].y = y
+      meterials[index].top = y - systemInfo.windowHeight
+      meterials[index].right = x + 64 - systemInfo.windowWidth
+      meterials[index].bottom = y + 90 - systemInfo.windowHeight
+      meterials[index].left = x - systemInfo.windowWidth
+      console.log(meterials[index].left)
       console.log(frame.left)
       this.setData({
-        materials
+        meterials
       })
     }
   }

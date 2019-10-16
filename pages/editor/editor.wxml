@@ -1,10 +1,12 @@
 <!--pages/editor/editor.wxml-->
 
 
-<movable-area id="area" style="width:{{area.width}}px;height:{{area.height}}px;top:{{area.top}}px;left:{{area.left}}px;background-color:{{bgColor}};" class="movable-area">
-  <movable-view data-index="{{index}}" bindchange="changeMaterial" id="material-{{index}}" wx:for="{{materials}}" wx:key direction="all" class="material test" animation="{{false}}" scale style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}"
+<movable-area bindtap="cancelSelect" id="area" style="width:{{area.width}}px;height:{{area.height}}px;top:{{area.top}}px;left:{{area.left}}px;background-color:{{bgColor}};" class="movable-area">
+  <movable-view data-index="{{index}}" catchtap="selectMeterial" bindchange="changemeterial" id="meterial-{{index}}" wx:for="{{meterials}}" wx:key direction="all" class="meterial {{currentMeterial==index?'current':''}}" animation="{{false}}" style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}"
     y="{{item.y}}">
     <image mode="aspectFit" src="{{item.image}}"></image>
+    <view catchtap="delMeterial" data-index="{{index}}" class="iconfont icon-close"></view>
+    <view class="iconfont icon-scale"></view>
   </movable-view>
 
 </movable-area>

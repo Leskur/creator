@@ -31,9 +31,35 @@ page {
   margin-left: -100%; */
 }
 
-movable-view.material {
-  /* position: fixed; */
-  background-color: rgba(0,0,0,0.3)
+movable-view.meterial {
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+movable-view.meterial.current {
+  border-color: white;
+}
+movable-view.meterial.current > .iconfont {
+  display: block;
+}
+movable-view.meterial > .iconfont {
+  display: none;
+  position: absolute;
+  font-size: 18px;
+  padding: 6px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+movable-view.meterial > .iconfont.icon-close {
+  background-color: red;
+  color: white;
+  left: -15px;
+  top: -15px;
+}
+movable-view.meterial > .iconfont.icon-scale {
+  background-color: white;
+  color: var(--black);
+  right: -15px;
+  bottom: -15px;
 }
 
 .frame {
