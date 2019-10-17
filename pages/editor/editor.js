@@ -227,8 +227,11 @@ Page({
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const {
       meterials,
-      frame
+      frame,
+      currentMeterial
     } = this.data
+    
+    
     const {
       x,
       y,
@@ -236,6 +239,11 @@ Page({
     } = e.detail
     if (source == 'touch') {
       const index = e.currentTarget.dataset.index
+      if (currentMeterial != index) {
+        this.setData({
+          currentMeterial: index
+        })
+      }
       meterials[index].x = x
       meterials[index].y = y
       meterials[index].top = y - systemInfo.windowHeight
