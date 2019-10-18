@@ -111,17 +111,13 @@ Page({
       const scaleY = (newFrame.height - 60) / (frame.height - 60)
 
       meterials.forEach(item => {
-        // const itemCenterX = item.left + item.width / 2
-        // const itemCenterX = item.left + item.width / 2
         item.width *= scaleX
         item.height *= scaleY
         item.left = newFrame.left + (item.left - frame.left - 30) * scaleX + 30
         item.top = newFrame.top + (item.top - frame.top - 30) * scaleY + 30
-        //   console.log(item.top)
         item.x = systemInfo.windowWidth + item.left
         item.y = systemInfo.windowHeight + item.top
       })
-      console.log(JSON.stringify(meterials))
 
       this.setData({
         frame: newFrame,
@@ -193,7 +189,6 @@ Page({
     meterial.bottom = meterial.top + meterial.height
 
     meterials.push(meterial)
-    console.log(JSON.stringify(meterial))
     this.setData({
       meterials,
       currentMeterial: meterials.length - 1
@@ -262,7 +257,6 @@ Page({
     const x = changedTouche.pageX
     const y = changedTouche.pageY
     const scale = (changedTouche.pageX - meterialCenterX) * (y - meterialCenterY) / (meterial.width / 2 * meterial.height / 2 )
-    console.log(scale)
     // 最小缩放倍数
     if(scale >= 0.5) {
       const systemInfo = this.systemInfo || wx.getSystemInfoSync()
@@ -302,7 +296,6 @@ Page({
         Math.pow(meterial.top - y, 2));
     var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
     var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
-    console.log(angleA)
       meterial.rotate = x <= meterialCenterX ? -angleA : angleA
       this.setData({ meterials })
   },
