@@ -2,14 +2,18 @@
 
 
 <movable-area bindtap="cancelSelect" id="area" style="width:{{area.width}}px;height:{{area.height}}px;top:{{area.top}}px;left:{{area.left}}px;background-color:{{bgColor}};" class="movable-area">
-  <movable-view data-index="{{index}}" catchtap="selectMeterial" bindchange="changemeterial" id="meterial-{{index}}" wx:for="{{meterials}}" wx:key direction="all" class="meterial {{currentMeterial==index?'current':''}}" animation="{{false}}" style="height:{{item.height}}px;width:{{item.width}}px;" x="{{item.x}}"
-    y="{{item.y}}">
-    <image mode="aspectFit" src="{{item.image}}"></image>
+  <movable-view data-index="{{index}}" catchtap="selectMeterial" bindchange="changemeterial" id="meterial-{{index}}" wx:for="{{meterials}}" wx:key direction="all" class="meterial {{currentMeterial==index?'current':''}}" animation="{{false}}" style="height:{{item.height}}px;width:{{item.width}}px;"
+    x="{{item.x}}" y="{{item.y}}">
+    <image style="transform:rotate({{item.rotate||0}}deg)" mode="aspectFit" src="{{item.image}}"></image>
     <view catchtap="delMeterial" data-index="{{index}}" class="iconfont icon-close"></view>
     <view catchtouchmove="scaleMeterial" data-index="{{index}}" class="iconfont icon-scale"></view>
+    <view catchtouchmove="rotateMeterial" data-index="{{index}}" class="iconfont icon-rotate"></view>
   </movable-view>
 
 </movable-area>
+
+
+
 
 <!-- 蒙层 -->
 
@@ -18,7 +22,8 @@
   <view style="top:{{-frame.border}}px;bottom:{{-frame.border}}px;left:calc(100% + {{frame.border}}px);" class="frame-after"></view>
 </view>
 
-
+<!-- 保存按钮 -->
+<button catchtap="save" hidden="{{!showSave}}" class="cu-btn bg-black round sm save">SAVE</button>
 
 <!-- 底部面板 -->
 <view id="panel" class="text-white">
@@ -26,7 +31,7 @@
   <view hidden="{{panelName!=='color'}}" class="bg-black">
     <view class="cu-bar">
       <view class="action"></view>
-      <view class="content">背景</view>
+      <view class="content">Background color</view>
       <view bindtap="hidePanel" class="action">
         <text class="cuIcon-check"></text>
       </view>
@@ -46,7 +51,7 @@
       <view bindtap="hidePanel" class="action">
         <text class="cuIcon-back"></text>
       </view>
-      <view class="content">贴纸</view>
+      <view class="content">Sticker</view>
       <view bindtap="hidePanel" class="action">
         <text class="cuIcon-check"></text>
       </view>
@@ -82,7 +87,9 @@
   <!-- 操作条 -->
   <view hidden="{{panelName!==''}}" class="cu-bar tabbar">
     <view bindtap="showPanel" data-panel-name="{{item.panel}}" wx:for="{{bars}}" wx:key class="action text-white">
-      <view class="cuIcon-{{item.icon}}"></view>{{item.name}}
+      <view class="{{item.icon}}"></view>{{item.name}}
     </view>
   </view>
 </view>
+
+<canvas style="height:{{frame.height}}px;width:{{frame.width}}px;" canvas-id="canvas"></canvas>

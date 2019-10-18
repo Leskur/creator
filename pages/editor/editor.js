@@ -2,6 +2,8 @@ const {
   colors,
   images,
 } = require('./resources.js')
+const promisify = require('../../utils/promisify.js')
+
 // pages/editor/editor.js
 Page({
 
@@ -10,12 +12,12 @@ Page({
    */
   data: {
     bars: [{
-      icon: 'skinfill',
-      name: '背景',
+      icon: 'cuIcon- iconfont icon-bg',
+      name: 'Background',
       panel: 'color'
     }, {
-      icon: 'emojiflashfill',
-      name: '贴纸',
+        icon: 'cuIcon-emojiflashfill',
+      name: 'Sticker',
       panel: 'image'
     }],
     bgColor: '#647f9c',
@@ -38,20 +40,10 @@ Page({
       border: 20
     },
     currentImagePanelTab: 0,
-    meterials: [{
-      "image": "http://qiniu.scdztlzx.com/creator/1-6.png",
-      "width": 87.9760092272203,
-      "height": 122.37209302325583,
-      "x": 1207.0119953863898,
-      "y": 1455.3139534883721,
-      "top": 407.31395348837214,
-      "left": 373.0119953863898,
-      "right": 449,
-      "bottom": 397.5
-    }],
+    meterials: [],
     currentMeterial: -1
   },
-  onReady() {
+  onLoad() {
     const systemInfo = wx.getSystemInfoSync()
     this.systemInfo = systemInfo
     this.init()
@@ -73,9 +65,7 @@ Page({
         const panel = res[0]
         const frameHeight = systemInfo.windowHeight - panel.height
         const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
-        console.log(frameWidth)
         const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
-        console.log(frameLeft)
         const frameTop = 0
         this.setData({
           frame: {
@@ -155,7 +145,7 @@ Page({
     }, () => {
       this.resize()
     })
-
+    this.hideSave()
   },
   hidePanel() {
     this.setData({
@@ -163,6 +153,7 @@ Page({
     }, () => {
       this.resize()
     })
+    if (this.data.meterials.length > 0 ) this.showSave()
   },
   selectPanel(e) {
     this.setData({
@@ -217,6 +208,9 @@ Page({
       currentMeterial: -1,
       meterials
     })
+    if (meterials.length == 0) {
+      this.hideSave()
+    }
   },
   selectMeterial(e) {
     this.setData({
@@ -250,20 +244,113 @@ Page({
       meterials[index].right = x + 64 - systemInfo.windowWidth
       meterials[index].bottom = y + 90 - systemInfo.windowHeight
       meterials[index].left = x - systemInfo.windowWidth
-      console.log(meterials[index].left)
-      console.log(frame.left)
       this.setData({
         meterials
       })
     }
   },
   scaleMeterial(e) {
+    if (this.scaleing) return
     const changedTouche = e.changedTouches[0]
     const index = e.currentTarget.dataset.index
     const { meterials } = this.data
     const meterial = meterials[index]
-    console.log(meterial)
-    console.log(changedTouche)
-  }
+    this.setData({ meterials })
+    
+    const meterialCenterX = meterial.left + meterial.width / 2
+    const meterialCenterY = meterial.top + meterial.height / 2
+    const x = changedTouche.pageX
+    const y = changedTouche.pageY
+    const scale = (changedTouche.pageX - meterialCenterX) * (y - meterialCenterY) / (meterial.width / 2 * meterial.height / 2 )
+    console.log(scale)
+    // 最小缩放倍数
+    if(scale >= 0.5) {
+      const systemInfo = this.systemInfo || wx.getSystemInfoSync()
+      meterial.width *= scale
+      meterial.height *= scale
+      meterial.left = meterialCenterX - meterial.width / 2
+      meterial.top = meterialCenterY - meterial.height / 2
+      meterial.right = meterial.left + meterial.width
+      meterial.bottom = meterial.top + meterial.height
+      meterial.x = meterial.left + systemInfo.windowWidth
+      meterial.y = meterial.top + systemInfo.windowHeight
+      this.scaleing = true
+      this.setData({ meterials }, () => {
+        this.scaleing = false
+      })
+    }
+    
+    
+  },
+  rotateMeterial(e) {
+    const changedTouche = e.changedTouches[0]
+    const index = e.currentTarget.dataset.index
+    const { meterials } = this.data
+    const meterial = meterials[index]
+    this.setData({ meterials })
 
+    const meterialCenterX = meterial.left + meterial.width / 2
+    const meterialCenterY = meterial.top + meterial.height / 2
+    const x = changedTouche.pageX
+    const y = changedTouche.pageY
+    
+    var lengthAB = Math.sqrt(Math.pow(meterialCenterX - meterialCenterX, 2) +
+      Math.pow(meterialCenterY - meterial.top, 2)),
+      lengthAC = Math.sqrt(Math.pow(meterialCenterX - x, 2) +
+        Math.pow(meterialCenterY - y, 2)),
+      lengthBC = Math.sqrt(Math.pow(meterialCenterX - x, 2) +
+        Math.pow(meterial.top - y, 2));
+    var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
+    var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
+    console.log(angleA)
+      meterial.rotate = x <= meterialCenterX ? -angleA : angleA
+      this.setData({ meterials })
+  },
+  showSave() {
+    this.setData({ showSave: true })
+  },
+  hideSave() {
+    this.setData({ showSave: false })
+  },
+  async save() {
+    wx.showLoading({ title: 'saving', mask: true })
+    const ctx = wx.createCanvasContext('canvas')
+    const { meterials, frame, bgColor } = this.data;
+    ctx.setFillStyle(bgColor)
+    ctx.fillRect(0, 0, frame.width, frame.height)
+    ctx.draw()
+
+    for (let i in meterials) {
+      const meterial = meterials[i]
+      const res = await promisify(wx.getImageInfo)({ src: meterials[i].image })
+      if (!meterial.rotate) {
+        ctx.drawImage(res.path, meterial.left - frame.left, meterial.top - frame.top + (meterial.height - meterial.width) / 2, meterial.width, meterial.width)
+      } else {
+        const centerX = meterial.left - frame.left + meterial.width / 2
+        const centerY = meterial.top - frame.top + meterial.height / 2
+        ctx.translate(centerX, centerY)
+        ctx.rotate((meterial.rotate || 0) * Math.PI / 180)
+        ctx.drawImage(res.path, -meterial.width / 2, -meterial.width / 2, meterial.width, meterial.width)
+        ctx.rotate(-(meterial.rotate || 0) * Math.PI / 180)
+        ctx.translate(-centerX, -centerY)
+      }
+    }
+
+    ctx.setStrokeStyle('white')
+    ctx.setLineWidth(frame.border)
+    ctx.strokeRect(frame.border / 2, frame.border / 2, frame.width - frame.border, frame.height - frame.border)
+
+    ctx.draw(true, () => {
+      wx.hideLoading()
+      wx.canvasToTempFilePath({
+        canvasId: 'canvas',
+        success(res) {
+          wx.previewImage({
+            urls: [res.tempFilePath],
+          })
+        }
+      })
+
+    })
+  }
 })

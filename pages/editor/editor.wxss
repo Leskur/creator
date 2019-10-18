@@ -20,7 +20,7 @@ page {
 /* movable */
 
 movable-view.meterial {
-  border: 1px solid transparent;
+  border: 1rpx dashed transparent;
   box-sizing: border-box;
 }
 movable-view.meterial.current {
@@ -45,6 +45,14 @@ movable-view.meterial > .iconfont.icon-close {
   left: -15px;
   top: -15px;
 }
+movable-view.meterial > .iconfont.icon-rotate {
+  background-color: whitesmoke;
+  
+  color: var(--black);
+  left: calc(50% - 15px);
+  top: -35px;
+  transform: rotate(-45deg)
+}
 movable-view.meterial > .iconfont.icon-scale {
   background-color: white;
   color: var(--black);
@@ -54,7 +62,6 @@ movable-view.meterial > .iconfont.icon-scale {
 
 .frame {
   position: fixed;
-  z-index: 2;
   background-color: transparent;
   pointer-events: none;
   box-sizing: border-box;
@@ -75,6 +82,7 @@ movable-view.meterial > .iconfont.icon-scale {
 movable-view image {
   height: 100%;
   width: 100%;
+  
 }
 
 #panel {
@@ -82,7 +90,6 @@ movable-view image {
   width: 100%;
   bottom: 0;
   background-color: black;
-  z-index: 3;
 }
 
 .nav .image-item {
@@ -114,4 +121,11 @@ images-scroll .cu-list.grid.no-border>.cu-item {
   height: 100rpx;
   display: inline-block;
   vertical-align: middle;
+}
+
+.save {
+  position: absolute;
+  bottom: 160rpx;
+  width: 5em;
+  left: calc(50% - 2.5em);
 }
