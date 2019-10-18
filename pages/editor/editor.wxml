@@ -6,7 +6,7 @@
     y="{{item.y}}">
     <image mode="aspectFit" src="{{item.image}}"></image>
     <view catchtap="delMeterial" data-index="{{index}}" class="iconfont icon-close"></view>
-    <view class="iconfont icon-scale"></view>
+    <view catchtouchmove="scaleMeterial" data-index="{{index}}" class="iconfont icon-scale"></view>
   </movable-view>
 
 </movable-area>

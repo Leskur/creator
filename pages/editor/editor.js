@@ -256,6 +256,14 @@ Page({
         meterials
       })
     }
+  },
+  scaleMeterial(e) {
+    const changedTouche = e.changedTouches[0]
+    const index = e.currentTarget.dataset.index
+    const { meterials } = this.data
+    const meterial = meterials[index]
+    console.log(meterial)
+    console.log(changedTouche)
   }
 
 })
