@@ -1,0 +1,9 @@
+<!--pages/index/index.wxml-->
+<view class="full flex flex-direction">
+  <view class="flex-sub flex justify-center align-center">
+    <image mode="widthFix" class="logo" src="https://image.chinafuturelink.org/creator/temp/logo.png"></image>
+  </view>
+  <view class="flex-sub flex justify-center align-center">
+    <button bindtap="start" class="cu-btn bg-yellow radius shadow">START</button>
+  </view>
+</view>

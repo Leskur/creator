@@ -1,0 +1,20 @@
+/* pages/save/save.wxss */
+page {
+  background-color: #282625;
+}
+.image {
+  width: 44.5%;
+}
+.tip{
+  color: #40cf9f;
+  margin: 50rpx 0;
+}
+
+.tip .cuIcon-check {
+  background-color: #362e24;
+  padding: 3rpx;
+}
+
+.cu-btn {
+  color: white;
+}

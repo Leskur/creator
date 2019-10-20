@@ -40,13 +40,39 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 2,
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/editor/editor",
+					"pathName": "pages/editor/editor",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/save/save",
+					"pathName": "pages/save/save",
+					"query": "image= https://image.chinafuturelink.org/wx656e6a03c99c3fc6.o6zAJs9rPcllB_gPGVHyGdvTHQNc.UeOY3vz5CuJB26ea8e05a03f4565e8468865b2fc8b74.png",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "选择模式",
+					"pathName": "pages/choose/choose",
+					"query": "",
+					"scene": null
+				}
+			]
 		}
 	}
 }

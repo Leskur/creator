@@ -1,0 +1,8 @@
+<!--pages/save/save.wxml-->
+<view class="full flex flex-direction align-center">
+  <image mode="widthFix" class="image" src="{{image}}"></image>
+  <view class="tip margin-top">
+    <text class="cuIcon-check round margin-right-xs"></text>Save to album</view>
+
+    <button bindtap="mainPage" class="cu-btn bg-yellow shadow radius">Main Page</button>
+</view>

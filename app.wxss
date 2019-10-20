@@ -4,9 +4,7 @@
 
 /**app.wxss**/
 page {
-  /* height: 100%;
-  display: flex;
-  flex-direction: column; */
+  height: 100%;
 } 
 .overflow-hidden{
   overflow: hidden;
@@ -20,4 +18,13 @@ page {
 }
 .grid.col-6>view {
 	width: 16.6%;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.radius {
+  border-radius: 15rpx;
 }

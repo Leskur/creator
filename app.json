@@ -1,12 +1,13 @@
 {
   "pages": [
-    "pages/editor/editor"
+    "pages/index/index",
+    "pages/editor/editor",
+    "pages/save/save",
+    "pages/choose/choose"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "Creator",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "white"
   },
   "sitemapLocation": "sitemap.json"
 }

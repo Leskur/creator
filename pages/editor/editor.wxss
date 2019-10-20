@@ -17,6 +17,10 @@ page {
   margin-top: 0;
 }
 
+.cu-bar.tabbar .action [class*="cuIcon-"] {
+  font-size: 32rpx;
+}
+
 /* movable */
 
 movable-view.meterial {
@@ -72,17 +76,20 @@ movable-view.meterial > .iconfont.icon-scale {
   height: 0;
 }
 
-.frame-before, .frame-after {
-  /* opacity: 0.1; */
+.frame-before, .frame-after, .frame-bottom,.frame-top {
   background-color: black;
   position: absolute;
   width: 750rpx;
 }
 
+.frame-bottom, .frame-top{
+  position: fixed;
+}
+
 movable-view image {
   height: 100%;
   width: 100%;
-  
+  display: block;
 }
 
 #panel {
@@ -105,7 +112,7 @@ images-scroll .cu-list.grid.no-border>.cu-item {
 }
 
 .image-item {
-  height: 90rpx;
+  height: 70rpx;
   width: 64rpx;
 }
 

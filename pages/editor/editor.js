@@ -20,7 +20,7 @@ Page({
       name: 'Sticker',
       panel: 'image'
     }],
-    bgColor: '#647f9c',
+    bgColor: '#5695c0',
     panelName: '',
     colors,
     images,
@@ -32,21 +32,47 @@ Page({
       top: 0,
       width: 0
     },
-    frame: {
-      height: 0,
-      wdth: 0,
-      left: 0,
-      top: 0,
-      border: 20
-    },
+    frame: null,
     currentImagePanelTab: 0,
     meterials: [],
-    currentMeterial: -1
+    currentMeterial: -1,
   },
-  onLoad() {
+  onLoad(options) {
+    // horizontal | cloumn
+    this.direction = options.mode || 'cloumn'
     const systemInfo = wx.getSystemInfoSync()
     this.systemInfo = systemInfo
     this.init()
+    wx.authorize({ scope: "scope.writePhotosAlbum" })
+  },
+  offsetFrame: async function() {
+    const systemInfo = wx.getSystemInfoSync()
+    const direction = this.direction
+    const query = wx.createSelectorQuery()
+    query.select('#panel').boundingClientRect()
+    return await new Promise((resolve) => {
+      query.exec(res => {
+        const panel = res[0]
+        const oldFrame = this.data.frame
+        const frameHeight = direction == 'cloumn' ? systemInfo.windowHeight - panel.height : (systemInfo.windowHeight - panel.height) * 0.618
+        const border = 30;
+        const frameWidth = direction == 'cloumn' ? Math.min(frameHeight * 0.7, systemInfo.windowWidth) : (oldFrame ? (frameHeight - 2 * border) / (oldFrame.height - 2 * oldFrame.border) * oldFrame.width : systemInfo.windowWidth);
+        
+        const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
+        const frameTop = (systemInfo.windowHeight - frameHeight - panel.height) / 2
+        const frame = {
+          height: frameHeight,
+          width: frameWidth,
+          left: ~~frameLeft,
+          right: frameLeft + frameWidth,
+          top: frameTop,
+          bottom: frameTop + frameHeight,
+          border: 30
+        }
+        this.setData({ frame })
+        resolve(frame)
+      })
+    })
   },
   init() {
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
@@ -59,71 +85,33 @@ Page({
     this.setData({
       area
     }, () => {
-      const query = wx.createSelectorQuery()
-      query.select('#panel').boundingClientRect()
-      query.exec(res => {
-        const panel = res[0]
-        const frameHeight = systemInfo.windowHeight - panel.height
-        const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
-        const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
-        const frameTop = 0
-        this.setData({
-          frame: {
-            height: frameHeight,
-            width: frameWidth,
-            left: frameLeft,
-            right: frameLeft + frameWidth,
-            top: frameTop,
-            bottom: frameTop + frameHeight,
-            border: 30
-          }
-        })
-      })
+      this.offsetFrame()
     })
 
   },
   // 用于重置画布大小
-  resize() {
-    const systemInfo = this.systemInfo || wx.getSystemInfoSync()
-    const query = wx.createSelectorQuery()
+  async resize() {
     const {
       frame,
       meterials
     } = this.data
-    query.select('#panel').boundingClientRect()
-    query.exec(res => {
-      const panel = res[0]
-      const frameHeight = systemInfo.windowHeight - panel.height
-      const frameWidth = Math.min(frameHeight * 0.7, systemInfo.windowWidth)
-      const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
-      const frameTop = 0
-      const newFrame = {
-        height: systemInfo.windowHeight - panel.height,
-        width: frameWidth,
-        left: frameLeft,
-        right: frameLeft + frameWidth,
-        top: frameTop,
-        bottom: frameTop + frameHeight,
-        border: 30
-      }
+    const newFrame = await this.offsetFrame()
+    const systemInfo = this.systemInfo || wx.getSystemInfoSync()
+    const scaleX = (newFrame.width - newFrame.border * 2) / (frame.width - frame.border * 2)
+    const scaleY = (newFrame.height - newFrame.border * 2) / (frame.height - frame.border * 2)
+    meterials.forEach(item => {
+      item.width *= scaleX
+      item.height *= scaleY
+      item.left = newFrame.left + (item.left - frame.left - frame.border) * scaleX + newFrame.border
+      item.top = newFrame.top + (item.top - frame.top - frame.border) * scaleY + newFrame.border
 
-      const scaleX = (newFrame.width - 60) / (frame.width - 60)
-      const scaleY = (newFrame.height - 60) / (frame.height - 60)
+      item.x = systemInfo.windowWidth + item.left
+      item.y = systemInfo.windowHeight + item.top
 
-      meterials.forEach(item => {
-        item.width *= scaleX
-        item.height *= scaleY
-        item.left = newFrame.left + (item.left - frame.left - 30) * scaleX + 30
-        item.top = newFrame.top + (item.top - frame.top - 30) * scaleY + 30
-        item.x = systemInfo.windowWidth + item.left
-        item.y = systemInfo.windowHeight + item.top
-      })
-
-      this.setData({
-        frame: newFrame,
-        meterials,
-        currentMeterial: -1
-      })
+    })
+    this.setData({
+      meterials,
+      currentMeterial: -1
     })
   },
   changeColor(e) {
@@ -171,18 +159,20 @@ Page({
       images,
       frame
     } = this.data
+    const direction = this.direction
     const systemInfo = this.systemInfo || wx.getSystemInfoSync()
     const image = images[group].list[index]
 
-    const x = systemInfo.windowWidth + frame.left + frame.width / 2 - 32
-    const y = systemInfo.windowHeight + frame.top + frame.height / 2 - 45
     const meterial = {
       image,
-      width: 64,
-      height: 90,
-      x,
-      y,
+      width: direction == 'column' ? 90 : 90,
+      height: direction == 'column' ? 90 : 90,
     }
+
+    const x = systemInfo.windowWidth + frame.left + frame.width / 2 - meterial.width / 2
+    const y = systemInfo.windowHeight + frame.top + frame.height / 2 - meterial.height / 2
+    meterial. x = x;
+    meterial.y = y
     meterial.top = y - systemInfo.windowHeight
     meterial.left = x - systemInfo.windowWidth
     meterial.right = meterial.left + meterial.width
@@ -208,8 +198,14 @@ Page({
     }
   },
   selectMeterial(e) {
+    const { meterials } = this.data
+    const index = e.currentTarget.dataset.index
+    const meterial = meterials.splice(index, 1)[0]
+    console.log(meterial)
+    meterials.push(meterial)
     this.setData({
-      currentMeterial: e.currentTarget.dataset.index,
+      meterials,
+      currentMeterial: meterials.length - 1
     })
   },
   changemeterial(e) {
@@ -333,14 +329,41 @@ Page({
     ctx.setLineWidth(frame.border)
     ctx.strokeRect(frame.border / 2, frame.border / 2, frame.width - frame.border, frame.height - frame.border)
 
+    // 加 logo 水印
+    await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-logo.png' }).then(res => {
+      const width = res.width / 5
+      const height = res.height / 5
+      // console.log(frame)
+      ctx.drawImage(res.path, frame.width - 1.5 * frame.border - width, frame.height - 1.5 * frame.border - height, width, height)
+    })
+    // 加文字水印
+    await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-font.png' }).then(res => {
+      const width = res.width / 3
+      const height = res.height / 3
+      ctx.drawImage(res.path, 1.5 * frame.border, (frame.height - height) / 2, width, height)
+    })
+    
+   
+
     ctx.draw(true, () => {
       wx.hideLoading()
       wx.canvasToTempFilePath({
         canvasId: 'canvas',
         success(res) {
-          wx.previewImage({
-            urls: [res.tempFilePath],
+          const image = res.tempFilePath
+          // wx.previewImage({
+          //   urls: [image],
+          // })
+          wx.saveImageToPhotosAlbum({
+            filePath: image,
+            success(res) { 
+              console.log(res)
+              wx.navigateTo({
+                url: `/pages/save/save?image=${image}`,
+              })
+            }
           })
+          
         }
       })
 

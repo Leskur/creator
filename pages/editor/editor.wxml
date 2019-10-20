@@ -17,13 +17,15 @@
 
 <!-- 蒙层 -->
 
-<view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;border-width:{{frame.border}}px;" class="frame">
+<view style="height:{{frame.height}}px;width:{{frame.width}}px;left:{{frame.left}}px;border-width:{{frame.border}}px;top:{{frame.top}}px;" class="frame">
+<view style="bottom:calc(100% - {{frame.top}}px);top:0%;left:0;" class="frame-top"></view>
   <view style="top:{{-frame.border}}px;bottom:{{-frame.border}}px;right:calc(100% + {{frame.border}}px);" class="frame-before"></view>
   <view style="top:{{-frame.border}}px;bottom:{{-frame.border}}px;left:calc(100% + {{frame.border}}px);" class="frame-after"></view>
+  <view style="top:{{frame.bottom}}px;bottom:0%;left:0;" class="frame-bottom"></view>
 </view>
 
 <!-- 保存按钮 -->
-<button catchtap="save" hidden="{{!showSave}}" class="cu-btn bg-black round sm save">SAVE</button>
+<button catchtap="save" hidden="{{!showSave}}" class="cu-btn shadow bg-black round sm save">SAVE</button>
 
 <!-- 底部面板 -->
 <view id="panel" class="text-white">
@@ -86,9 +88,11 @@
 
   <!-- 操作条 -->
   <view hidden="{{panelName!==''}}" class="cu-bar tabbar">
+    <view class="action"></view>
     <view bindtap="showPanel" data-panel-name="{{item.panel}}" wx:for="{{bars}}" wx:key class="action text-white">
       <view class="{{item.icon}}"></view>{{item.name}}
     </view>
+    <view class="action"></view>
   </view>
 </view>
 

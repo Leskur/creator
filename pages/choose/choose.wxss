@@ -1,0 +1,14 @@
+/* pages/choose/choose.wxss */
+
+page {
+  background-color: #5695c0;
+}
+
+.cu-btn {
+  color: white;
+  width: 8em;
+}
+
+.bg {
+  width: 100%;
+}
