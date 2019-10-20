@@ -2,8 +2,8 @@
 App({
   currentPosition: 0,
   BGM: {
-    src: 'https://m701.music.126.net/20191020122330/0eaa7cc94ce0e1bebb0e1700fd73c46e/jdyyaac/0752/0f0b/565f/087cda85ba8a866ddeb1a5fcaf7b44b0.m4a',
-    title: 'Rain'
+    src: 'https://m701.music.126.net/20191020204852/649391ffcdbf65bd21450a753dff4f91/jdyyaac/520c/510f/520b/ef783b8c4dfe6e44a9deea1754fc150c.m4a',
+    title: 'Magic Castle'
   },
   BGMCurrentTime: 0,
   onLaunch() {
@@ -14,6 +14,8 @@ App({
     })
     BGAM.onEnded(() => {
       BGAM.src = this.BGM.src
+      BGAM.title = this.BGM.title
+      BGAM.startTime = 0
       this.BGMCurrentTime = 0
     })
   },
@@ -26,5 +28,6 @@ App({
   },
   onHide() {
     const BGAM = wx.getBackgroundAudioManager()
+    BGAM.pause()
   }
 })
