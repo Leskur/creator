@@ -55,7 +55,7 @@ Page({
         const panel = res[0]
         const oldFrame = this.data.frame
         const frameHeight = direction == 'cloumn' ? systemInfo.windowHeight - panel.height : (systemInfo.windowHeight - panel.height) * 0.618
-        const border = 30;
+        const border = systemInfo.windowWidth * 0.03;
         const frameWidth = direction == 'cloumn' ? Math.min(frameHeight * 0.7, systemInfo.windowWidth) : (oldFrame ? (frameHeight - 2 * border) / (oldFrame.height - 2 * oldFrame.border) * oldFrame.width : systemInfo.windowWidth);
         
         const frameLeft = (systemInfo.windowWidth - frameWidth) / 2
@@ -67,7 +67,7 @@ Page({
           right: frameLeft + frameWidth,
           top: frameTop,
           bottom: frameTop + frameHeight,
-          border: 30
+          border: border
         }
         this.setData({ frame })
         resolve(frame)
