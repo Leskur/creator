@@ -2,7 +2,7 @@
 App({
   currentPosition: 0,
   BGM: {
-    src: 'https://m701.music.126.net/20191020204852/649391ffcdbf65bd21450a753dff4f91/jdyyaac/520c/510f/520b/ef783b8c4dfe6e44a9deea1754fc150c.m4a',
+    src: 'https://image.chinafuturelink.org/creator/Thomas%20Greenberg%20-%20Magic%20Castle.mp3',
     title: 'Magic Castle'
   },
   BGMCurrentTime: 0,
