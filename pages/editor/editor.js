@@ -42,7 +42,6 @@ Page({
     // horizontal | cloumn
     this.direction = options.mode || 'cloumn'
     const systemInfo = wx.getSystemInfoSync()
-    console.log(systemInfo)
     this.setData({ systemInfo })
     this.systemInfo = systemInfo
     this.init()
@@ -204,7 +203,6 @@ Page({
     const { meterials } = this.data
     const index = e.currentTarget.dataset.index
     const meterial = meterials.splice(index, 1)[0]
-    console.log(meterial)
     meterials.push(meterial)
     this.setData({
       meterials,
@@ -338,7 +336,6 @@ Page({
       await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-logo.png' }).then(res => {
         const width = res.width / 5
         const height = res.height / 5
-        // console.log(frame)
         ctx.drawImage(res.path, frame.width - 1.5 * frame.border - width, frame.height - 1.5 * frame.border - height, width, height)
       })
       // 加文字水印
@@ -368,7 +365,6 @@ Page({
           wx.saveImageToPhotosAlbum({
             filePath: image,
             success(res) { 
-              console.log(res)
               wx.navigateTo({
                 url: `/pages/save/save?image=${image}`,
               })
