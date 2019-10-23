@@ -25,7 +25,7 @@
 </view>
 
 <!-- 保存按钮 -->
-<button style="color:white;" catchtap="save" hidden="{{!showSave}}" class="cu-btn shadow bg-yellow round save">SAVE</button>
+<button style="color:white;" catchtap="save" hidden="{{!showSave}}" class="cu-btn shadow bg-black round save">SAVE</button>
 
 <!-- 底部面板 -->
 <view id="panel" class="text-white">

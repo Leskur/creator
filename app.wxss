@@ -28,3 +28,7 @@ page {
 .radius {
   border-radius: 15rpx;
 }
+
+.iconfont {
+  font-size: inherit;
+}

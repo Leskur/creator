@@ -1,10 +1,10 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1571430727877'); /* IE9 */
-  src: url('iconfont.eot?t=1571430727877#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPcAAsAAAAACFQAAAOOAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDMgqDdIMYATYCJAMUCwwABCAFhG0HRRshB8iemjwJRBAhBLCWAkYeUTxga+G/2ZndwxKAJmYNQKrCAMezbio5HvCz+8ndu581C5Qugc0iwodJyunLzyIJA3iaQJhjjcIA2VO11xJ28/wakJDz08XhtHke2Py2JRTyWNPGpLGoqAswmkABjb2AAi2QEuWWw41X4dG1moCqrgoETOoamIBwCekUEHY5uAbhKa1UEx2UBUXJyCRclStn57KPuOJ/PvwwMoSTySPSc96WThNaPtMvB+NBA6tcBN54ZojjiBgMJMKBUusuQaF/sCBV/XfBxgFVZZnsc/fPkz4ffjnYaGAIdySv0j88kiATCQUSWQfjcCDxmdrcWNaB1AKSHSIWGV+sgIj7slMdKXgaTyVdZ6RuJgjKvUPiwGAQl+xaB/Hx0f4Nj853ZKZDO7DpybF+nNEPan56YQDymo2Pj/Y2twkJnz5vgF0WTQbY3n5cjCye3ry50zvywb1j9/vZ2FVbBkn8+Xsdg+7dPer+3aN3ehO8bIMBh/cv3O2wPQHTNRN4TcF6bQO2F1+03ki0bYOqrYNZ47jHtNpfXIJ8TMGfa1ZTXmRvtrhUwplvdqjeJ4Jtoaht0EhouvTtx7dvt9K72OD0Dje/f//x3dgnM0O+zRsz8q1QiH+2zV6a6nS9KhJhb4pxIZ/WFSW+mllWmra39y4FvV6hfmLdw9uz/J1wbeDDhxOTOwfOrh0fMZ40WJWuL2aNVdT4LzNQ4Z974vXrWUf2j/9/1pMnJ4YUDvz6ZRtAo/g3bgJoGP/HA0rw+Cuu+7XfsWnGs8drYxr+K9cS+Ph1wlQ/pUGCeAjg/8i05v1IXsusZAiILk9aus3VmuUGCgeZWFDF73O29H0ceZvWOIK8TQyZki4QlfVGJuxgyNWMhkLZWKgapHt8TStSkJAqGOgUIGjuJWSaegFRc5+QCfsNcm39g0LzEARVS0LCjDV9g4O0S9QUmlTfpA5DeBkzKBJEjyFfdWsyKfDxUygth4uWFpVkQ93oRTlGH2uNlynFKJPCQ7tgPXS7BfVJ4URDFdmV8tUVF7OyJxUZwgPERBLSKMhE6TZRDgbBi7n5FZJ7/xjErXLTyJqMOvsUJFkc1VOlipS0QHZLva0yruUcyxqujKIwFCMJHlQXmJGb+gXKV97MCRmUIvYeXp86xTgXaystml/uecYVUEXmzEMWYkghD4V8o1tYGCqFOvVGIZahuTFQ5wAAAA==') format('woff2'),
-  url('iconfont.woff?t=1571430727877') format('woff'),
-  url('iconfont.ttf?t=1571430727877') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1571430727877#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1571845702913'); /* IE9 */
+  src: url('iconfont.eot?t=1571845702913#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAASsAAsAAAAACZAAAARfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDVgqFbIRdATYCJAMcCxAABCAFhG0HXBspCMiehbHzIoSincr2VaH+SBFUY+jecwhdSqw6tUCSUJKtY8UKSLoKU8sW0Ij8/+9ZN5OO0jUysDqLsYqX1ulJ3sBcwH+iv0Tiv137+UGTUEgFGAceSkrHlwMABP9zzHRRgvnXNqGhViVFWSTgeM/3BtRxmc8P+A7k9ET5NMSr6UDeoAcvJzBpA0fECVFMCpgo3HmBuKWUi8GkYlAGcsMQWsfWIt6BoZGeG1wE3iY/H/9hf5mQ1MxdenZHySD0g988WfO/ppwIAcL1bJB3kbEPKMTDTscDZJbYhzRp/o3ASWDakJRfxGv6deTr2jf8///8gorETYVps94/eFRNEZJMNFBMC9irycYvCHSqqSQg6FLS0ClQRkInoKwFh8RvvkwGPdoyiyXgA4hN4Kr2JY4kPq+irGwjptkLuLyH2sVx/nBi/G20pcY2cHPbHEYGRvvgrbU2cobZIWRbux2SDw3aUmMpK6eo+PZawm5zMZUQfryXCtSl9NKRzZbjNm6t3WYjZIZmMFAmtm2dQy7zjt+wpab9DSk0OB0Rtdvat8wuT4H0yEAeDMUpgfI5MK1kmrAccIpBFnnwGenlRpONSyji0+20kbNt5+1v3kwBqi7IztyxWHtbdPImvebWIJIkbb7YdnnOZAOqz12javZcar+yb+GY4bg6Nw8cMBz/vFxPmLtabl4Hr4PjweewAmG0qRtiyqi8fvfh3bsxwVHyv3A5MfD+/Yf3cPgtNXyUEJzwyEkqPKRQuJmp1AeNShmXjEINLxW0FR/LyHAzr6o6OhNf0QimnxVs2hTz+XN9UVHM8eP1UVExfb11bsnTY70tJLnWSZ6+n7umxHh+jq+/cCGmurr+z5+Y3bvrnZxinj0DW0f8r3gBb7yzHhJXtWjhbzaSFcbLUqsh8e48ojng6hoZSQoCfkKYNvVUEHyv/Cn7KeD3Ss0haVaJFlIFkQW/yJeoIpLMJepbquNl5t97Qnu+E1NnjAYdwPpyL0kZJzX4gyOt8owsIN31l02w3j7y3/BbwcHeejt/YuBXE2EBX28Pi+BbrxloCvhTKJGF/x4hsaVYYtfYi1E9mCrQ7WHCu97PpEn8azyLHq+nWiErvN2qlQKSbg2yYRuyYPdBNeUANMNhmLRX9O4pSzikKBPYo5FBmLcLklnvIZt3CVmwj6Ba9Qma+SJh0uWaeuSUHaWkIjgkxkhGS0pppZTVMb4ZU2luEpIXasRcWZwQ0xDHK8O0m7NrPR2NdIhbYwVfJHfHmKEZjtXSInY1pNGwtJ5jVUiKnRUY6/1dXJiuD3KWslqgHMdBxDBEhiZRiqYkxdJhou4Y1fj+JIhcIQ0xbqCiyZ0G4fCUg9PcOHMlIKMVOlLFszyFV0TOHYYxaAwOS4smYjZE4yVYNH33JBVECnOmmBHT8+fCOzFUhfP+Ku373AOT3Dv0SJGjRI0WPYZ6U8PyyIhj8YNfYchLxRpkIJGbasQ6WWm8HpnoWQ5zYiUGAAA=') format('woff2'),
+  url('iconfont.woff?t=1571845702913') format('woff'),
+  url('iconfont.ttf?t=1571845702913') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1571845702913#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -29,5 +29,13 @@
 
 .icon-bg:before {
   content: "\e620";
+}
+
+.icon-landscape:before {
+  content: "\e600";
+}
+
+.icon-portrait:before {
+  content: "\e601";
 }
 

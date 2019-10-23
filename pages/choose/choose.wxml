@@ -2,8 +2,8 @@
 <view class="full flex flex-direction">
   <view class="flex-sub flex flex-direction justify-center align-center">
     <view class="text-white">Choose the orientation you want:</view>
-    <button bindtap="tapPortrait" class="cu-btn margin-top-xl bg-yellow shadow radius">Portrait</button>
-    <button bindtap="tapLandscape" class="cu-btn margin-top bg-yellow shadow radius">Landscape</button>
+    <button bindtap="tapPortrait" class="cu-btn margin-top-xl bg-yellow shadow radius "><text class="iconfont icon-portrait margin-right-xs"></text>Portrait</button>
+    <button bindtap="tapLandscape" class="cu-btn margin-top bg-yellow shadow radius"><text class="iconfont icon-landscape margin-right-xs"></text>Landscape</button>
   </view>
   <image class="bg" mode="widthFix" src="https://image.chinafuturelink.org/creator/bg.png"></image>
 </view>

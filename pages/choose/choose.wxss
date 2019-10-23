@@ -6,7 +6,7 @@ page {
 
 .cu-btn {
   color: white;
-  width: 8em;
+  width: 9em;
 }
 
 .bg {
