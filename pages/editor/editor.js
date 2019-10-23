@@ -36,11 +36,14 @@ Page({
     currentImagePanelTab: 0,
     meterials: [],
     currentMeterial: -1,
+    saving: false
   },
   onLoad(options) {
     // horizontal | cloumn
     this.direction = options.mode || 'cloumn'
     const systemInfo = wx.getSystemInfoSync()
+    console.log(systemInfo)
+    this.setData({ systemInfo })
     this.systemInfo = systemInfo
     this.init()
     wx.authorize({ scope: "scope.writePhotosAlbum" })
@@ -302,51 +305,59 @@ Page({
     this.setData({ showSave: false })
   },
   async save() {
-    wx.showLoading({ title: 'saving', mask: true })
+    this.setData({ saving: true })
     const ctx = wx.createCanvasContext('canvas')
     const { meterials, frame, bgColor } = this.data;
     ctx.setFillStyle(bgColor)
     ctx.fillRect(0, 0, frame.width, frame.height)
     ctx.draw()
 
-    for (let i in meterials) {
-      const meterial = meterials[i]
-      const res = await promisify(wx.getImageInfo)({ src: meterials[i].image })
-      if (!meterial.rotate) {
-        ctx.drawImage(res.path, meterial.left - frame.left, meterial.top - frame.top + (meterial.height - meterial.width) / 2, meterial.width, meterial.width)
-      } else {
-        const centerX = meterial.left - frame.left + meterial.width / 2
-        const centerY = meterial.top - frame.top + meterial.height / 2
-        ctx.translate(centerX, centerY)
-        ctx.rotate((meterial.rotate || 0) * Math.PI / 180)
-        ctx.drawImage(res.path, -meterial.width / 2, -meterial.width / 2, meterial.width, meterial.width)
-        ctx.rotate(-(meterial.rotate || 0) * Math.PI / 180)
-        ctx.translate(-centerX, -centerY)
+
+    try {
+      for (let i in meterials) {
+        const meterial = meterials[i]
+        const res = await promisify(wx.getImageInfo)({ src: meterials[i].image })
+        if (!meterial.rotate) {
+          ctx.drawImage(res.path, meterial.left - frame.left, meterial.top - frame.top + (meterial.height - meterial.width) / 2, meterial.width, meterial.width)
+        } else {
+          const centerX = meterial.left - frame.left + meterial.width / 2
+          const centerY = meterial.top - frame.top + meterial.height / 2
+          ctx.translate(centerX, centerY)
+          ctx.rotate((meterial.rotate || 0) * Math.PI / 180)
+          ctx.drawImage(res.path, -meterial.width / 2, -meterial.width / 2, meterial.width, meterial.width)
+          ctx.rotate(-(meterial.rotate || 0) * Math.PI / 180)
+          ctx.translate(-centerX, -centerY)
+        }
       }
+
+      ctx.setStrokeStyle('white')
+      ctx.setLineWidth(frame.border)
+      ctx.strokeRect(frame.border / 2, frame.border / 2, frame.width - frame.border, frame.height - frame.border)
+
+      // 加 logo 水印
+      await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-logo.png' }).then(res => {
+        const width = res.width / 5
+        const height = res.height / 5
+        // console.log(frame)
+        ctx.drawImage(res.path, frame.width - 1.5 * frame.border - width, frame.height - 1.5 * frame.border - height, width, height)
+      })
+      // 加文字水印
+      await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-font.png' }).then(res => {
+        const width = res.width / 3
+        const height = res.height / 3
+        ctx.drawImage(res.path, 1.5 * frame.border, (frame.height - height) / 2, width, height)
+      })
+    }catch {
+      this.setData({ saving: false })
+      return wx.showToast({ title: 'Unable to connect to network', icon: 'none' })
     }
 
-    ctx.setStrokeStyle('white')
-    ctx.setLineWidth(frame.border)
-    ctx.strokeRect(frame.border / 2, frame.border / 2, frame.width - frame.border, frame.height - frame.border)
-
-    // 加 logo 水印
-    await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-logo.png' }).then(res => {
-      const width = res.width / 5
-      const height = res.height / 5
-      // console.log(frame)
-      ctx.drawImage(res.path, frame.width - 1.5 * frame.border - width, frame.height - 1.5 * frame.border - height, width, height)
-    })
-    // 加文字水印
-    await promisify(wx.getImageInfo)({ src: 'https://image.chinafuturelink.org/creator/temp/mark-font.png' }).then(res => {
-      const width = res.width / 3
-      const height = res.height / 3
-      ctx.drawImage(res.path, 1.5 * frame.border, (frame.height - height) / 2, width, height)
-    })
+    
     
    
 
     ctx.draw(true, () => {
-      wx.hideLoading()
+      this.setData({ saving: false })
       wx.canvasToTempFilePath({
         canvasId: 'canvas',
         success(res) {

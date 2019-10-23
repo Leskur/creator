@@ -136,3 +136,19 @@ images-scroll .cu-list.grid.no-border>.cu-item {
   width: 5em;
   left: calc(50% - 2.5em);
 }
+
+.cu-load.load-modal {
+  width: 200rpx;
+  height: 200rpx;
+  top: -100rpx;
+  bottom: 0;
+}
+.cu-load.load-modal::after {
+  width: 160rpx;
+  height: 160rpx;
+  border-left-color: var(--black)
+}
+.cu-load.load-modal image {
+  width: 90rpx;
+  height: 90rpx;
+}
